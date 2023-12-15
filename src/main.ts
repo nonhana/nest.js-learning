@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { VersioningType } from '@nestjs/common'; // VersioningType中枚举了四种开启版本控制的Type
 import { AppModule } from './app.module';
 import { Request, Response, NextFunction } from 'express';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 /* ----------相关的插件引入---------- */
 // 1. 引入express-session插件。
@@ -12,21 +14,31 @@ import * as cors from 'cors';
 
 // 全局中间件
 // 使用场景：验证白名单
-const whiteList = ['/list'];
+/* const whiteList = ['/list']; */
 function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
   console.log(req.originalUrl);
-  if (whiteList.includes(req.originalUrl)) {
+  /* if (whiteList.includes(req.originalUrl)) {
     next();
   } else {
     res.send({
       code: 401,
       msg: '没有权限',
     });
-  }
+  } */
+  next();
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  // 在通过create函数创建app实例时，需要指定app的类型为NestExpressApplication。
+  // NestExpressApplication提供了express的所有方法，包括useStaticAssets、setViewEngine等。
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // 使用express中的useStaticAssets方法来指定静态资源的路径。
+  app.useStaticAssets(join(__dirname, 'images'), {
+    // 在useStaticAssets方法中可以传递第二个参数，也就是具体的配置项。
+    // prefix代表访问静态资源的前缀，这里我们设置为/images/。
+    prefix: '/images/',
+  });
+
   // enableVersioning代表开启版本控制
   app.enableVersioning({
     type: VersioningType.URI,
