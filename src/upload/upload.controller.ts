@@ -35,7 +35,8 @@ export class UploadController {
   }
 
   @Get('export')
-  // 1. 下载图片(同步下载)
+  // 1. 下载图片(整体下载)
+  // 这种下载方式最为简单，适合小到中等大小的文件，实现简单，但不适合大型文件，可能会增加服务器内存负担。
   download(@Res() res: Response) {
     const url = join(__dirname, '../images/1702622651587.jpg');
     // 直接使用res的download方法，传入图片的路径即可进行下载
@@ -44,6 +45,7 @@ export class UploadController {
 
   @Get('stream')
   // 2. 下载图片(流式下载)(二进制流)(借助compressing)
+  // 流式下载比较适合大文件或需要实时处理的场景，更有效地管理内存，但实现相对复杂。
   async down(@Res() res: Response) {
     const url = join(__dirname, '../images/1702622651587.jpg');
     const tarStream = new zip.Stream(); // 使用compressing中的zip的Stream方法创建一个流
