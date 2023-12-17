@@ -11,12 +11,12 @@ interface Data<T> {
   data: T;
 }
 
-/**
- * 定义一个响应拦截器来约束返回的类型
- * - NestInterceptor是一个接口，代表一个Nest.js中的拦截器。
- * - CallHandler是一个接口，代表一个可调用的处理程序。它会接收从上一个中间件传递下来的数据流。
- * - ExecutionContext是一个接口，代表一个执行上下文，它会包含当前请求的一些信息。
- * - Observable是rxjs中的一个类，代表一个可观察的对象，用来处理数据流。
+/*
+  定义一个响应拦截器来约束返回的类型
+  - NestInterceptor是一个接口，代表一个Nest.js中的拦截器。
+  - CallHandler是一个接口，代表一个可调用的处理程序。它会接收从上一个中间件传递下来的数据流。
+  - ExecutionContext是一个接口，代表一个执行上下文，它会包含当前请求的一些信息。
+  - Observable是rxjs中的一个类，代表一个可观察的对象，用来处理数据流。
  */
 @Injectable()
 export class CommonResponse<T> implements NestInterceptor {

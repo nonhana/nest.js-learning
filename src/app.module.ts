@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { ListModule } from './list/list.module';
 import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
+import { PModule } from './p/p.module';
 
 // Module是一个类装饰器，它将元数据附加到AppModule类。
 @Module({
@@ -16,6 +17,7 @@ import { UploadModule } from './upload/upload.module';
     ListModule,
     ConfigModule.forRoot({ path: '/non_hana' }),
     UploadModule,
+    PModule,
   ], // 导入其他模块
   controllers: [AppController], // 控制器，主要是配置路由
   // 把服务注入到providers中，这样就可以在AppController中使用AppService这个服务

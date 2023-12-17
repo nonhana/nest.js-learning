@@ -7,6 +7,10 @@ import { join } from 'path';
 
 /* ----------相关的自定义响应拦截器引入---------- */
 import { CommonResponse } from './common/response';
+
+/* ----------相关的自定义异常过滤器引入---------- */
+import { HttpFilter } from './common/filter';
+
 /* ----------相关的插件引入---------- */
 // 1. 引入express-session插件。
 import * as session from 'express-session';
@@ -47,6 +51,8 @@ async function bootstrap() {
   });
   /* ----------在app中注册上方引入的响应拦截器---------- */
   app.useGlobalInterceptors(new CommonResponse());
+  /* ----------在app中注册上方引入的异常过滤器---------- */
+  app.useGlobalFilters(new HttpFilter());
   /* ----------在app中注册上方引入的插件---------- */
   // 2. 在app中注册express-session插件
   app.use(
