@@ -31,7 +31,7 @@ export class HttpFilter implements ExceptionFilter {
     // 如果接口报错了，就可以把错误信息通过json的形式返回给前端
     response.status(status).json({
       success: false,
-      data: exception.message,
+      data: exception,
       timestamp: new Date().toISOString(),
       statusCode: status,
       path: request.url,

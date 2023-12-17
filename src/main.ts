@@ -1,5 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { VersioningType } from '@nestjs/common'; // VersioningType中枚举了四种开启版本控制的Type
+import {
+  VersioningType, // 引入VersioningType，用于开启版本控制
+  ValidationPipe, // 引入ValidationPipe，用于验证参数。可以配合class-validator和class-transformer使用。
+} from '@nestjs/common'; // VersioningType中枚举了四种开启版本控制的Type
 import { AppModule } from './app.module';
 import { Request, Response, NextFunction } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
@@ -53,6 +56,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new CommonResponse());
   /* ----------在app中注册上方引入的异常过滤器---------- */
   app.useGlobalFilters(new HttpFilter());
+  /* ----------在app中注册上方引入的管道---------- */
+  app.useGlobalPipes(new ValidationPipe());
   /* ----------在app中注册上方引入的插件---------- */
   // 2. 在app中注册express-session插件
   app.use(
