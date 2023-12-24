@@ -21,6 +21,9 @@ import * as session from 'express-session';
 /* ----------相关的第三方中间件引入---------- */
 import * as cors from 'cors';
 
+/* ----------相关的全局守卫引入---------- */
+// import { RoleGuard } from './guard/role/role.guard';
+
 // 全局中间件
 // 使用场景：验证白名单
 /* const whiteList = ['/list']; */
@@ -73,6 +76,8 @@ async function bootstrap() {
   /* ----------在app中引入全局中间件---------- */
   app.use(cors());
   app.use(MiddleWareAll);
+  /* ----------在app中注册全局守卫---------- */
+  // app.useGlobalGuards(new RoleGuard());
   await app.listen(3000);
 }
 bootstrap();

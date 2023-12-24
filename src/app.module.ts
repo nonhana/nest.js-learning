@@ -10,6 +10,8 @@ import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
 import { PModule } from './p/p.module';
 import { LoginModule } from './login/login.module';
+import { SpiderModule } from './spider/spider.module';
+import { GuardModule } from './guard/guard.module';
 
 // Module是一个类装饰器，它将元数据附加到AppModule类。
 @Module({
@@ -20,6 +22,8 @@ import { LoginModule } from './login/login.module';
     UploadModule,
     PModule,
     LoginModule,
+    SpiderModule,
+    GuardModule,
   ], // 导入其他模块
   controllers: [AppController], // 控制器，主要是配置路由
   // 把服务注入到providers中，这样就可以在AppController中使用AppService这个服务
