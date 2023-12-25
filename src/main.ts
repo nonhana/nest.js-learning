@@ -17,6 +17,8 @@ import { HttpFilter } from './common/filter';
 /* ----------相关的插件引入---------- */
 // 1. 引入express-session插件。
 import * as session from 'express-session';
+// 2. 引入swagger相关插件。
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 /* ----------相关的第三方中间件引入---------- */
 import * as cors from 'cors';
@@ -62,7 +64,7 @@ async function bootstrap() {
   /* ----------在app中注册上方引入的管道---------- */
   app.useGlobalPipes(new ValidationPipe());
   /* ----------在app中注册上方引入的插件---------- */
-  // 2. 在app中注册express-session插件
+  // 1. 在app中注册express-session插件
   app.use(
     session({
       secret: 'non_hana', // 用于加密的字符串，可以随便写。主要用于防止cookie被篡改。
@@ -73,6 +75,18 @@ async function bootstrap() {
       },
     }),
   );
+  // 2. 在app中注册swagger相关插件
+  // 2.1 编写swagger相关配置
+  const options = new DocumentBuilder()
+    .addBearerAuth() // 设置接口文档的全局token
+    .setTitle('nestjs-demo') // 设置接口文档的标题
+    .setDescription('nestjs-demo接口文档') // 设置接口文档的描述
+    .setVersion('1.0') // 设置接口文档的版本
+    .build();
+  // 2.2 生成接口文档
+  const document = SwaggerModule.createDocument(app, options);
+  // 2.3 配置接口文档访问的路径
+  SwaggerModule.setup('/api-docs', app, document);
   /* ----------在app中引入全局中间件---------- */
   app.use(cors());
   app.use(MiddleWareAll);
