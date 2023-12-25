@@ -12,6 +12,9 @@ import { PModule } from './p/p.module';
 import { LoginModule } from './login/login.module';
 import { SpiderModule } from './spider/spider.module';
 import { GuardModule } from './guard/guard.module';
+/* ----------引入Typeorm模块---------- */
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeormModule } from './typeorm/typeorm.module';
 
 // Module是一个类装饰器，它将元数据附加到AppModule类。
 @Module({
@@ -24,6 +27,21 @@ import { GuardModule } from './guard/guard.module';
     LoginModule,
     SpiderModule,
     GuardModule,
+    // Typeorm模块
+    TypeOrmModule.forRoot({
+      type: 'mysql', // 数据库类型
+      host: 'localhost', // 数据库地址
+      port: 3306, // 端口
+      username: 'root', // 用户名
+      password: '20021209xiang', // 密码
+      database: 'nestjs_demo', // 数据库名称
+      // entities: [__dirname + '/**/*.entity{.ts,.js}'], // 实体类文件
+      synchronize: true, // 这个字段代表每次应用启动时都会使用实体类去更新数据库表结构，生产环境下不建议使用
+      retryDelay: 3000, // 重试延时
+      retryAttempts: 10, // 重试次数
+      autoLoadEntities: true, // 如果为true，则无需再使用entities:[]手动加载实体
+    }),
+    TypeormModule,
   ], // 导入其他模块
   controllers: [AppController], // 控制器，主要是配置路由
   // 把服务注入到providers中，这样就可以在AppController中使用AppService这个服务
